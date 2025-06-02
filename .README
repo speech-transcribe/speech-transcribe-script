@@ -1,0 +1,5 @@
+## 실행 방법
+1. setup.sh 실행
+    `bash setup.sh`
+2. 메인 스크립트 실행
+    `python main.py`
