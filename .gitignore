@@ -7,3 +7,5 @@ __pycache__/
 *.pywz
 *.pyzw
 *.pyzwz
+whisper.cpp/
+venv/
