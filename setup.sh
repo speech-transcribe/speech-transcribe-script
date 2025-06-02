@@ -37,6 +37,6 @@ fi
 python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
-pip install sounddevice scipy
+pip install sounddevice scipy requests
 
 echo "python 가상환경 세팅 및 패키지 설치 완료!"
