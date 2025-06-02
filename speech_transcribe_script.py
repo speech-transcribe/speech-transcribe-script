@@ -8,6 +8,7 @@ import threading
 import queue
 from pathlib import Path
 import glob
+from api_client import SpeechApiClient  # 새로운 import 추가
 
 # 로깅 설정
 from logging_config import setup_logging  # 새로운 import 추가
@@ -35,6 +36,7 @@ class VoiceProcessor:
         self.queue = queue.Queue()
         self.is_running = True
         self.audio_index = 0
+        self.api_client = SpeechApiClient()  # API 클라이언트 초기화
        
     def record(self):
         """녹음 처리"""
@@ -78,9 +80,12 @@ class VoiceProcessor:
                 text=True,
             )
            
-            # 결과 출력
+            # 결과 처리 및 API 전송
             if result.returncode == 0:
-                logger.info(f"결과: {result.stdout.strip()}")
+                transcribed_text = result.stdout.strip()
+                logger.info(f"결과: {transcribed_text}")
+                # API로 결과 전송
+                self.api_client.send_transcription(transcribed_text)
             else:
                 logger.error(f"변환 실패: {result.stderr}")
 
