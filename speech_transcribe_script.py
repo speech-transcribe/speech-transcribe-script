@@ -7,11 +7,13 @@ import subprocess
 import threading
 import queue
 from pathlib import Path
-from datetime import datetime
 import glob
 
 # 로깅 설정
-logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s', datefmt='%H:%M:%S')
+from logging_config import setup_logging  # 새로운 import 추가
+
+# 기존의 logging.getLogger().addHandler(handler) 부분을 제거하고
+setup_logging()  # 이 줄로 대체
 logger = logging.getLogger(__name__)
 
 
@@ -38,7 +40,6 @@ class VoiceProcessor:
         """녹음 처리"""
         while self.is_running:
             filename = f"audio_{self.audio_index}.wav"
-            start_time = datetime.now().strftime('%H:%M:%S')
             logger.info(f"녹음 중... ({filename})")
            
             # 녹음
@@ -51,7 +52,7 @@ class VoiceProcessor:
            
             # 저장
             write(filename, self.config.sample_rate, audio)
-            logger.info(f"{start_time} 저장됨: {filename}")
+            logger.info(f"저장됨: {filename}")
             self.queue.put(filename)
             self.audio_index += 1
    
